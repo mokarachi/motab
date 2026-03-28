@@ -501,14 +501,19 @@ const minTempStations = [
 
 
 // ===== NORMAL FUNCTION =====
-function getNormalTemp(code,month,day,time){
-    if(time!=="0300" && time!=="1200") return "__";
-    let st=minTempStations.find(s=>s.station===code);
+function getNormalTemp(code, month, day, time){
+    if(time !== "0300" && time !== "1200") return "__";
+
+    // Choose dataset based on time
+    let dataset = (time === "0300") ? minTempStations : maxTempStations;
+
+    // Find station record
+    let st = dataset.find(s => s.station === code);
     if(!st || !st.data[month]) return "__";
+
+    // Return normal value for that day
     return st.data[month][day-1] ?? "__";
 }
-
-
 
 
 // ===== DATE FORMAT =====
